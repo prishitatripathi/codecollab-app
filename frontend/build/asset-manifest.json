@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/codecollab-app/static/css/main.03ec264e.css",
+    "main.js": "/codecollab-app/static/js/main.e3ac4c91.js",
+    "static/js/453.670e15c7.chunk.js": "/codecollab-app/static/js/453.670e15c7.chunk.js",
+    "index.html": "/codecollab-app/index.html",
+    "main.03ec264e.css.map": "/codecollab-app/static/css/main.03ec264e.css.map",
+    "main.e3ac4c91.js.map": "/codecollab-app/static/js/main.e3ac4c91.js.map",
+    "453.670e15c7.chunk.js.map": "/codecollab-app/static/js/453.670e15c7.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.03ec264e.css",
+    "static/js/main.e3ac4c91.js"
+  ]
+}
