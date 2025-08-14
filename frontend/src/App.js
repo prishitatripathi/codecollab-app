@@ -6,21 +6,7 @@ import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import "./App.css";
 
-/**
- * Single-file polished frontend for collaborative editor:
- * - Files sidebar (create/open/delete)
- * - Users list
- * - Chat
- * - History
- * - Monaco editor with IntelliSense-like options
- * - Run / Save / AI Suggest buttons
- *
- * Connects to BACKEND (socket + REST):
- * - socket: join, file:update, file:create, file:delete, chat:message
- * - REST: POST /run, POST /files/:sessionId/save, POST /ai-suggest
- */
-
-const BACKEND = process.env.REACT_APP_BACKEND || "http://localhost:4000";
+const BACKEND = "https://your-backend.onrender.com";
 const socket = io(BACKEND, { transports: ["websocket"] });
 
 function usePersisted(name, defaultVal = "") {
@@ -36,9 +22,9 @@ function usePersisted(name, defaultVal = "") {
 }
 
 export default function App() {
-  const [sessionId, setSessionId] = usePersisted("sessionId", "default");
-  const [userName, setUserName] = usePersisted("userName", `User-${Math.floor(Math.random() * 999)}`);
-  const [files, setFiles] = useState({}); // filename -> content
+  const [sessionId] = usePersisted("sessionId", "default");
+  const [userName] = usePersisted("userName", `User-${Math.floor(Math.random() * 999)}`);
+  const [files, setFiles] = useState({});
   const [currentFile, setCurrentFile] = useState(null);
   const [editorValue, setEditorValue] = useState("// Welcome!");
   const [language, setLanguage] = useState("javascript");
@@ -49,7 +35,7 @@ export default function App() {
   const [aiSuggestion, setAiSuggestion] = useState("");
   const editorRef = useRef(null);
 
-  // connect + events
+  // Connect to socket and handle events
   useEffect(() => {
     if (!sessionId || !userName) return;
     socket.emit("join", { sessionId, userName });
@@ -117,9 +103,8 @@ export default function App() {
     };
   }, [sessionId, userName, currentFile]);
 
-  // helpers
   function pushHistory(text) {
-    setHistoryItems((h) => [ `${new Date().toLocaleTimeString()} • ${text}`, ...h ].slice(0, 200));
+    setHistoryItems((h) => [`${new Date().toLocaleTimeString()} • ${text}`, ...h].slice(0, 200));
   }
   function autoSetLangFromFilename(fn) {
     if (!fn) return;
@@ -170,7 +155,12 @@ export default function App() {
   const runCode = async () => {
     try {
       setOutput("Running...");
-      const res = await axios.post(`${BACKEND}/run`, { sessionId, language: mapLang(language), filename: currentFile, code: editorValue });
+      const res = await axios.post(`${BACKEND}/run`, {
+        sessionId,
+        language: mapLang(language),
+        filename: currentFile,
+        code: editorValue
+      });
       setOutput(res.data.output || JSON.stringify(res.data));
       pushHistory(`Ran ${currentFile || "code"}`);
     } catch (e) {
@@ -212,7 +202,6 @@ export default function App() {
     <div className="cc-app">
       <div className="cc-topbar">
         <div className="cc-brand">CodeCollab</div>
-
         <div className="cc-controls">
           <div className="cc-pill">Session: <b>{sessionId}</b></div>
           <div className="cc-pill">You: <b>{userName}</b></div>
@@ -233,6 +222,7 @@ export default function App() {
       </div>
 
       <div className="cc-body">
+        {/* LEFT SIDEBAR */}
         <aside className="cc-sidebar">
           <div className="cc-pane">
             <div className="cc-pane-title">
@@ -269,6 +259,7 @@ export default function App() {
           </div>
         </aside>
 
+        {/* MAIN EDITOR */}
         <main className="cc-main">
           <div className="cc-editor-header">
             <div className="cc-openfile">{currentFile || "No file open"}</div>
@@ -311,6 +302,7 @@ export default function App() {
           </div>
         </main>
 
+        {/* RIGHT SIDEBAR */}
         <aside className="cc-rightbar">
           <div className="cc-pane">
             <div className="cc-pane-title">Chat</div>

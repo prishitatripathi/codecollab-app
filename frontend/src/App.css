@@ -294,3 +294,72 @@ body {
     padding: 8px;
   }
 }
+
+/* === ADDITIONS FOR UPDATED APP.JS === */
+
+/* Make Monaco editor fill height in its container */
+.cc-editor-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Make scrollbars match dark theme */
+.monaco-editor .scrollbar {
+  background: transparent;
+}
+.monaco-editor .scrollbar .slider {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+}
+.monaco-editor .margin {
+  background: #0b0f12;
+}
+
+/* Output & AI suggestion panels */
+.cc-panel-body {
+  flex: 1;
+  overflow-y: auto;
+  font-family: Consolas, Monaco, monospace;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+/* Ensure open file name and online count are spaced nicely */
+.cc-openfile {
+  font-weight: 600;
+  color: #9fd0ff;
+}
+.cc-online {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* Monaco match VS Code Dark+ theme */
+.monaco-editor {
+  background-color: #1e1e1e !important;
+}
+.monaco-editor .line-numbers {
+  color: #858585 !important;
+}
+.monaco-editor .mtk1 {
+  color: #d4d4d4;
+}
+.monaco-editor .mtk3 {
+  color: #569cd6;
+}
+.monaco-editor .mtk5 {
+  color: #dcdcaa;
+}
+.monaco-editor .mtk7 {
+  color: #ce9178;
+}
+.monaco-editor .mtk8 {
+  color: #4ec9b0;
+}
+.monaco-editor .mtk9 {
+  color: #d16969;
+}
+.monaco-editor .mtk10 {
+  color: #b5cea8;
+}
