@@ -21,13 +21,14 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+        working-directory: ./frontend # <-- ADD THIS
 
       - name: Build the project
         run: npm run build
+        working-directory: ./frontend # <-- ADD THIS
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build
-#whatever
+          publish_dir: ./frontend/build # <-- UPDATE THIS
