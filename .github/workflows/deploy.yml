@@ -1,19 +1,18 @@
-# Name of the workflow
 name: Deploy React App to GitHub Pages
 
-# Run this workflow on every push to the main branch
 on:
   push:
     branches: [main]
 
-# Jobs to be executed
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    permissions: # <-- ADD THIS BLOCK
-      contents: write # <-- TO GRANT WRITE PERMISSION
+
+    # Permissions must be at the same level as "steps"
+    permissions:
+      contents: write
+
     steps:
-      - name: Checkout code
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -24,14 +23,14 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        working-directory: ./frontend # <-- ADD THIS
+        working-directory: ./frontend
 
       - name: Build the project
         run: npm run build
-        working-directory: ./frontend # <-- ADD THIS
+        working-directory: ./frontend
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./frontend/build # <-- UPDATE THIS
+          publish_dir: ./frontend/build
