@@ -1,0 +1,32 @@
+# Name of the workflow
+name: Deploy React App to GitHub Pages
+
+# Run this workflow on every push to the main branch
+on:
+  push:
+    branches: [main]
+
+# Jobs to be executed
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest # Use a Linux machine
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build the project
+        run: npm run build
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build
