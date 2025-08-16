@@ -9,8 +9,11 @@ on:
 # Jobs to be executed
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest # Use a Linux machine
+    runs-on: ubuntu-latest
+    permissions: # <-- ADD THIS BLOCK
+      contents: write # <-- TO GRANT WRITE PERMISSION
     steps:
+      - name: Checkout code
       - name: Checkout code
         uses: actions/checkout@v4
 
